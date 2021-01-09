@@ -1,27 +1,20 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow } = require('electron');
 
-function createWindow () {
-  const win = new BrowserWindow({
-    width: 800,
-    height: 600,
-    webPreferences: {
-      nodeIntegration: true
-    }
-  })
+let googleWindow;
 
-  win.loadFile('index.html')
+// handle create googleWindow
+function createGoogleWindow(){
+    googleWindow = new BrowserWindow({
+        webPreferences: {
+            nodeIntegration: true,
+            preload:`${__dirname}/scripts/googleWindow.js`
+          }});
+    //load html into window
+    googleWindow.loadURL('https://www.google.com/');
+    //garbage collection handle
+    googleWindow.on('close', function(){
+        googleWindow=null;
+    });
 }
 
-app.whenReady().then(createWindow)
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
-
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow()
-  }
-})
+app.whenReady().then(createGoogleWindow)
