@@ -1,5 +1,6 @@
 # @see https://medium.com/gitpod/developing-native-ui-applications-in-gitpod-15af2967c24e
 FROM gitpod/workspace-full-vnc
+USER root
 RUN apt-get update \
     && apt-get install -y libgtk-3-dev
 
